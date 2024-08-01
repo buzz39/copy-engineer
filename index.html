@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copy Engineer</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Ubuntu', sans-serif;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .fancy-title {
+            background: linear-gradient(45deg, #3498db, #2ecc71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <nav class="bg-blue-600 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-white text-3xl fancy-title">Copy Engineer</h1>
+            <div class="flex items-center">
+                <button id="start-again" class="text-white mr-4 hover:text-blue-200 transition flex items-center">
+                    <i class="fas fa-redo-alt mr-2"></i>
+                    <span>Start Again</span>
+                </button>
+                <a href="https://www.twitter.com/hi_gaganthakur" target="_blank" class="text-white hover:text-blue-200 transition flex items-center">
+                    <i class="fab fa-twitter mr-2"></i>
+                    <span>Follow me</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto mt-8 p-4">
+        <div id="input-form" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div id="api-key-container" class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="api-key">
+                    Enter GPT API Key:
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="api-key" type="password" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="niche">
+                    Niche:
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="niche" type="text" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="audience">
+                    Target Audience:
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="audience" type="text" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="promise">
+                    Promised Result:
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="promise" type="text" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="timeframe">
+                    Timeframe for Result:
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="timeframe" type="text" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="method">
+                    Unique Method for Achieving Result:
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="method" type="text" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="proof">
+                    Proof:
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="proof" type="text" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="story">
+                    Story:
+                </label>
+                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="story" required></textarea>
+            </div>
+            <div class="flex items-center justify-between">
+                <button id="submit-form" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                    Start Process
+                </button>
+            </div>
+        </div>
+
+        <div id="response-container" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 hidden">
+            <div id="response-content" class="mb-4"></div>
+            <div id="selection-form" class="mb-4 hidden">
+                <p class="mb-2">Enter three numbers (comma-separated) corresponding to your selections:</p>
+                <input id="selection-input" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="e.g., 1,2,3">
+                <button id="submit-selection" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                    Continue
+                </button>
+            </div>
+            <div class="loader mx-auto hidden"></div>
+        </div>
+    </div>
+
+    <script>
+        const apiEndpoint = 'https://api.openai.com/v1/chat/completions';
+        const inputForm = document.getElementById('input-form');
+        const apiKeyContainer = document.getElementById('api-key-container');
+        const responseContainer = document.getElementById('response-container');
+        const responseContent = document.getElementById('response-content');
+        const selectionForm = document.getElementById('selection-form');
+        const selectionInput = document.getElementById('selection-input');
+        const submitFormButton = document.getElementById('submit-form');
+        const submitSelectionButton = document.getElementById('submit-selection');
+        const startAgainButton = document.getElementById('start-again');
+        const loader = document.querySelector('.loader');
+
+        let apiKey, currentStep = 0;
+        const userInputs = {};
+        const prompts = [
+            `Prompt #1 - Identifying desires
+Today you are an expert online marketer who is amazing at research and coming up with topics. We're creating a content calendar for email promotions with the following variables:
+Niche = {niche}
+Target audience = {audience}
+Promised result = {promise}
+Timeframe for result = {timeframe}
+Unique method for achieving result = {method}
+Proof = {proof}
+Story = {story}
+Very important - I need you to remember these variables exactly, word for word. I will quiz you on them later and I expect you to remember them exactly as they are written.
+Now, with these variables in mind, we will identify the specific desires of our target audience, related to the promised result. When they have the promised result, what will that allow them to be, do or have? Give me a list of 20 desires, written at an 8th grade reading level.`,
+            `Prompt #2 - Identify Pain Points
+Good job! I choose desires {selections}. Store those in your memory for later. Now, give me a list of 20 pain points or frustrations that my audience is experiencing, as a result of not having these desires met, written at an 8th grade reading level.`,
+            `Prompt 3 - Identify Obstacles/Objections
+Nice! I choose pain points {selections}. Store those in your memory for later. Now, give me a list of 20 actions my audience does NOT want to do, in order to achieve the desired result. What obstacles do they most want to avoid? What actions do they hate doing? Write this list at an 8th grade reading level.`
+        ];
+
+        window.onload = () => {
+            apiKey = sessionStorage.getItem('apiKey');
+            if (apiKey) {
+                apiKeyContainer.classList.add('hidden');
+            }
+        };
+
+        submitFormButton.addEventListener('click', async () => {
+            apiKey = apiKey || document.getElementById('api-key').value;
+            ['niche', 'audience', 'promise', 'timeframe', 'method', 'proof', 'story'].forEach(field => {
+                userInputs[field] = document.getElementById(field).value;
+            });
+            sessionStorage.setItem('apiKey', apiKey);
+            currentStep = 0;
+            inputForm.classList.add('hidden');
+            responseContainer.classList.remove('hidden');
+            await runPrompt();
+        });
+
+        submitSelectionButton.addEventListener('click', async () => {
+            const selections = selectionInput.value.split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n));
+            if (selections.length !== 3) {
+                alert('Please enter exactly 3 numbers, separated by commas.');
+                return;
+            }
+            userInputs.selections = selections.join(', ');
+            currentStep++;
+            await runPrompt();
+        });
+
+        startAgainButton.addEventListener('click', () => {
+            currentStep = 0;
+            userInputs = {};
+            responseContainer.classList.add('hidden');
+            responseContent.innerHTML = '';
+            inputForm.classList.remove('hidden');
+            ['niche', 'audience', 'promise', 'timeframe', 'method', 'proof', 'story'].forEach(field => {
+                document.getElementById(field).value = '';
+            });
+        });
+
+        async function runPrompt() {
+            loader.classList.remove('hidden');
+            selectionForm.classList.add('hidden');
+
+            if (currentStep >= prompts.length) {
+                responseContent.innerHTML += '<p class="text-green-600 font-bold">Process completed!</p>';
+                loader.classList.add('hidden');
+                return;
+            }
+
+            let prompt = prompts[currentStep];
+            for (const [key, value] of Object.entries(userInputs)) {
+                prompt = prompt.replace(`{${key}}`, value);
+            }
+
+            try {
+                const response = await fetch(apiEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: 'gpt-4',
+                        messages: [{ role: 'user', content: prompt }],
+                        max_tokens: 1000
+                    })
+                });
+
+                const data = await response.json();
+                if (data.choices && data.choices.length > 0) {
+                    const content = data.choices[0].message.content;
+                    const formattedContent = formatResponse(content, currentStep);
+                    responseContent.innerHTML += formattedContent;
+                    
+                    if (currentStep < prompts.length - 1) {
+                        selectionForm.classList.remove('hidden');
+                        selectionInput.value = '';
+                    }
+                } else {
+                    throw new Error('No response from GPT');
+                }
+            } catch (error) {
+                responseContent.innerHTML += `<p class="text-red-600 font-bold">Error: ${error.message}</p>`;
+            }
+
+            loader.classList.add('hidden');
+        }
+
+        function formatResponse(content, step) {
+            const lines = content.split('\n');
+            let formattedContent = '<div class="space-y-2">';
+            
+            const headlines = ['Desires', 'Pain Points', 'Obstacles/Objections'];
+            formattedContent += `<h2 class="text-2xl font-bold mb-4">${headlines[step]}</h2>`;
+            
+            lines.forEach((line, index) => {
+                if (line.trim() === '') return;
+                
+                if (line.match(/^\d+\./)) {
+                    formattedContent += `<p class="ml-4"><span class="font-bold">${line.split('.')[0]}.</span> ${line.split('.').slice(1).join('.').trim()}</p>`;
+                } else if (index !== 0) {
+                    formattedContent += `<p>${line}</p>`;
+                }
+            });
+            
+            formattedContent += '</div>';
+            return formattedContent;
+        }
+    </script>
+</body>
+</html>
